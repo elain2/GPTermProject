@@ -12,8 +12,13 @@ public class Player : MonoBehaviour {
     public float f_JumpSpeed = 10;
     public bool b_canMoveY = false;
     public bool b_Falling = false;
-
+    public bool b_TooHigh = false;
+    public bool b_Dead = false;
     public bool b_Jump = false;
+
+    private bool b_DeadCounterActive = false;
+
+    public Transform Respawn;
 
     Vector3 RayPoint1;
     Vector3 RayPoint2;
@@ -39,18 +44,23 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        transform.eulerAngles = new Vector3(0, Camera.main.transform.eulerAngles.y, 0);
+        if (!b_Dead)
+        {
 
-        transform.eulerAngles = new Vector3(0,  Camera.main.transform.eulerAngles.y, 0);
-        MoveFunc();
-        FallingCheck();
-        AnimationControl();
-        
+            MoveFunc();
+            FallingCheck();
+            AnimationControl();
+        }else
+        {
+            anim.Play("Dead");
+            if (!b_DeadCounterActive)
+            {
+                StartCoroutine(DeadCounter());
+            }
+        }
 	}
 
-    void Billboard()
-    {
-        
-    }
 
     void MoveFunc()
     {
@@ -249,19 +259,32 @@ public class Player : MonoBehaviour {
             Ray ray3 = new Ray(rayPoint3, Vector3.down);
             Ray ray4 = new Ray(rayPoint4, Vector3.down);
 
+            if(rigid.velocity.y <= -25.0f)
+            {
+                b_TooHigh = true;
+            }
 
+            
             if (Physics.Raycast(ray1, out hit, 0.1f) || Physics.Raycast(ray2, out hit, 0.1f) || Physics.Raycast(ray3, out hit, 0.1f) || Physics.Raycast(ray4, out hit, 0.1f))
             {
 
 
                 if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Platform"))
                 {
+                    if (b_TooHigh)
+                    {
+                        b_Dead = true;
+                    }
                     b_Falling = false;
                     b_Jump = false;
 
                 }
                 else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
                 {
+                    if (b_TooHigh)
+                    {
+                        b_Dead = true;
+                    }
                     b_Falling = false;
                     b_Jump = false;
 
@@ -283,19 +306,11 @@ public class Player : MonoBehaviour {
         {
             b_Falling = false;
             b_Jump = false;
+            b_TooHigh = false;
         }
     }
 
-    void WalkonPlatform(RaycastHit _hit)
-    {
-        Vector3 StartPos = transform.position;
-        transform.position = new Vector3(transform.position.x, col.bounds.size.y/2 + _hit.collider.bounds.center.y + _hit.collider.bounds.size.y, transform.position.z);
-        if(Input.GetKeyDown(KeyCode.Space) && Input.GetKey(KeyCode.S))
-        {
-            transform.position = new Vector3(transform.position.x, _hit.collider.bounds.center.y, transform.position.z);
-        }
-        
-    }
+
 
     void AnimationControl()
     {
@@ -339,10 +354,12 @@ public class Player : MonoBehaviour {
             }
             else
             {
-                Debug.Log("idle");
+
                 anim.Play("Idle");
             }
         }
+
+        
     }
 
     private void OnTriggerStay(Collider other)
@@ -380,6 +397,20 @@ public class Player : MonoBehaviour {
             //    transform.parent = collision.transform;
             //}
         }
+    }
+
+    IEnumerator DeadCounter()
+    {
+        b_DeadCounterActive = true;
+
+
+
+        yield return new WaitForSeconds(3f);
+
+        b_DeadCounterActive = false;
+        b_Dead = false;
+        b_TooHigh = false;
+        transform.position = Respawn.transform.position;
     }
 
 
