@@ -7,7 +7,7 @@ public class GeneralManager : MonoBehaviour {
     public static GeneralManager instance = null;
     public string[] ItemType = new[] { "KeyItem","RankItem", "MapDisableItem" };
     public int rank = 0;
-    
+    public Transform Respawn;
 
     private void Awake()
     {
@@ -19,17 +19,26 @@ public class GeneralManager : MonoBehaviour {
             Destroy(gameObject);
 
         }
+        
         DontDestroyOnLoad(gameObject);
     }
     // Use this for initialization
     
 	// Use this for initialization
 	void Start () {
-	    	
+        InitParameter();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    void InitParameter()
+    {
+        if(Respawn == null && GameObject.FindWithTag("Respawn") != null)
+        {
+            Respawn = GameObject.FindWithTag("Respawn").transform;
+        }
+    }
 }

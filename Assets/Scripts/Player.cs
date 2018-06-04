@@ -18,7 +18,7 @@ public class Player : MonoBehaviour {
 
     private bool b_DeadCounterActive = false;
 
-    public Transform Respawn;
+
 
     Vector3 RayPoint1;
     Vector3 RayPoint2;
@@ -410,7 +410,7 @@ public class Player : MonoBehaviour {
         b_DeadCounterActive = false;
         b_Dead = false;
         b_TooHigh = false;
-        transform.position = Respawn.transform.position;
+        transform.position = GeneralManager.instance.Respawn.transform.position;
     }
 
 

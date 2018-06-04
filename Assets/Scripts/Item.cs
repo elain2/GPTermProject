@@ -9,6 +9,7 @@ public class Item : MonoBehaviour {
     public int n_ItemRank = 10;
     string Item_Type;
     public GameObject ControlledMap;
+    public Transform ChangeRespawnPoint;
 
 
 	// Use this for initialization
@@ -40,6 +41,11 @@ public class Item : MonoBehaviour {
             }else if(Item_Type == GeneralManager.instance.ItemType[2])
             {
                 MapDisAble();
+            }
+
+            if(ChangeRespawnPoint!= null)
+            {
+                GeneralManager.instance.Respawn = ChangeRespawnPoint;
             }
             Destroy(this.gameObject);
         }
