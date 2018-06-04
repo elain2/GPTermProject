@@ -13,20 +13,14 @@ public class Item : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        if(n_TypeIndex == 0)
+
+        Item_Type = GeneralManager.instance.ItemType[n_TypeIndex];
+
+        if (ControlledMap != null)
         {
-            Item_Type = GeneralManager.instance.ItemType[0];
-            if (ControlledMap != null)
-            {
-                ControlledMap.SetActive(false);
-            }
+            ControlledMap.SetActive(false);
         }
-        else
-        {
-            Item_Type = GeneralManager.instance.ItemType[1];
-        }
-		
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -39,15 +33,18 @@ public class Item : MonoBehaviour {
         {
             if(Item_Type == GeneralManager.instance.ItemType[0])
             {
-                MapControl();
+                MapEnable();
             }else if(Item_Type == GeneralManager.instance.ItemType[1])
             {
                 RankUp();
+            }else if(Item_Type == GeneralManager.instance.ItemType[2])
+            {
+                MapDisAble();
             }
             Destroy(this.gameObject);
         }
     }
-    void MapControl()
+    void MapEnable()
     {
         if(ControlledMap != null)
         {
@@ -59,6 +56,13 @@ public class Item : MonoBehaviour {
     {
         GeneralManager.instance.rank += n_ItemRank;
 
+    }
+    void MapDisAble()
+    {
+        if(ControlledMap != null)
+        {
+            ControlledMap.SetActive(false);
+        }
     }
 
 }

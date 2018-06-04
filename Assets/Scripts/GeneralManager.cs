@@ -5,7 +5,7 @@ using UnityEngine;
 public class GeneralManager : MonoBehaviour {
 
     public static GeneralManager instance = null;
-    public string[] ItemType = new[] { "KeyItem","RankItem" };
+    public string[] ItemType = new[] { "KeyItem","RankItem", "MapDisableItem" };
     public int rank = 0;
     
 
