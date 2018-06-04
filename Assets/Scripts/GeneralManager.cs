@@ -5,7 +5,7 @@ using UnityEngine;
 public class GeneralManager : MonoBehaviour {
 
     public static GeneralManager instance = null;
-    public string[] ItemType = new[] { "KeyItem","RankItem", "MapDisableItem" };
+    public string[] ItemType = new[] { "KeyItem", "RankItem", "MapDisableItem", "Default" };
     public int rank = 0;
     public Transform Respawn;
 
@@ -40,5 +40,6 @@ public class GeneralManager : MonoBehaviour {
         {
             Respawn = GameObject.FindWithTag("Respawn").transform;
         }
+
     }
 }

@@ -7,8 +7,9 @@ public class Item : MonoBehaviour {
 
     public int n_TypeIndex = 0;
     public int n_ItemRank = 10;
-    string Item_Type;
-    public GameObject ControlledMap;
+    public string Item_Type;
+    public GameObject EnableMapObj;
+    public ControlledMap[] ControlMap;
     public Transform ChangeRespawnPoint;
 
 
@@ -17,9 +18,9 @@ public class Item : MonoBehaviour {
 
         Item_Type = GeneralManager.instance.ItemType[n_TypeIndex];
 
-        if (ControlledMap != null)
+        if (Item_Type == GeneralManager.instance.ItemType[0] && EnableMapObj != null)
         {
-            ControlledMap.SetActive(false);
+            EnableMapObj.SetActive(false);
         }
     }
 	
@@ -47,14 +48,18 @@ public class Item : MonoBehaviour {
             {
                 GeneralManager.instance.Respawn = ChangeRespawnPoint;
             }
+            for(int i=0; i < ControlMap.Length; i++)
+            {
+                ControlMap[i].b_Start = true;
+            }
             Destroy(this.gameObject);
         }
     }
     void MapEnable()
     {
-        if(ControlledMap != null)
+        if(EnableMapObj != null)
         {
-            ControlledMap.SetActive(true);
+            EnableMapObj.SetActive(true);
 
         }
     }
@@ -65,9 +70,9 @@ public class Item : MonoBehaviour {
     }
     void MapDisAble()
     {
-        if(ControlledMap != null)
+        if(EnableMapObj != null)
         {
-            ControlledMap.SetActive(false);
+            EnableMapObj.SetActive(false);
         }
     }
 
