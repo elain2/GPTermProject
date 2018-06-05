@@ -366,7 +366,7 @@ public class Player : MonoBehaviour {
     {
         if(other.transform.gameObject.layer == LayerMask.NameToLayer("Grab"))
         {
-            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow))
             {
                 b_canMoveY = true;
 
