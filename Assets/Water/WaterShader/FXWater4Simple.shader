@@ -1,11 +1,10 @@
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
-Shader "FX/Water4" {
+Shader "FX/Water" {
 Properties {
 	_ReflectionTex ("Internal reflection", 2D) = "white" {}
 	
 	_MainTex ("Fallback texture", 2D) = "black" {}
-	_ShoreTex ("Shore & Foam texture ", 2D) = "black" {}
 	_BumpMap ("Normals ", 2D) = "bump" {}
 	
 	_DistortParams ("Distortions (Bump waves, Reflection, Fresnel power, Fresnel bias)", Vector) = (1.0 ,1.0, 2.0, 1.15)
@@ -25,8 +24,6 @@ Properties {
 	
 	_WorldLightDir ("Specular light direction", Vector) = (0.0, 0.1, -0.5, 0.0)
 	_Shininess ("Shininess", Range (2.0, 500.0)) = 200.0
-	
-	_Foam ("Foam (intensity, cutoff)", Vector) = (0.1, 0.375, 0.0, 0.0)
 	
 	_GerstnerIntensity("Per vertex displacement", Float) = 1.0
 	_GAmplitude ("Wave Amplitude", Vector) = (0.3 ,0.35, 0.25, 0.25)
@@ -55,7 +52,7 @@ CGINCLUDE
 	{
 		float4 pos : SV_POSITION;
 		float4 normalInterpolator : TEXCOORD0;
-		float4 viewInterpolator : TEXCOORD1;
+		float3 viewInterpolator : TEXCOORD1;
 		float4 bumpCoords : TEXCOORD2;
 		float4 screenPos : TEXCOORD3;
 		float4 grabPassPos : TEXCOORD4;
@@ -75,7 +72,7 @@ CGINCLUDE
 	struct v2f_simple
 	{
 		float4 pos : SV_POSITION;
-		float4 viewInterpolator : TEXCOORD0;
+		float3 viewInterpolator : TEXCOORD0;
 		float4 bumpCoords : TEXCOORD1;
 		UNITY_FOG_COORDS(2)
 	};
@@ -113,16 +110,13 @@ CGINCLUDE
 	uniform float4 _GDirectionAB;
 	uniform float4 _GDirectionCD;
 	
-	// foam
-	uniform float4 _Foam;
-	
 	// shortcuts
 	#define PER_PIXEL_DISPLACE _DistortParams.x
 	#define REALTIME_DISTORTION _DistortParams.y
 	#define FRESNEL_POWER _DistortParams.z
 	#define VERTEX_WORLD_NORMAL i.normalInterpolator.xyz
+	#define DISTANCE_SCALE _InvFadeParemeter.z
 	#define FRESNEL_BIAS _DistortParams.w
-	#define NORMAL_DISPLACEMENT_PER_VERTEX _InvFadeParemeter.z
 	
 	//
 	// HQ VERSION
@@ -137,6 +131,7 @@ CGINCLUDE
 
 		half3 nrml;
 		half3 offsets;
+		
 		Gerstner (
 			offsets, nrml, v.vertex.xyz, vtxForAni,						// offsets, nrml will be written
 			_GAmplitude,												// amplitude
@@ -149,8 +144,7 @@ CGINCLUDE
 		
 		v.vertex.xyz += offsets;
 		
-		// one can also use worldSpaceVertex.xz here (speed!), albeit it'll end up a little skewed
-		half2 tileableUv = mul(unity_ObjectToWorld,(v.vertex)).xz;
+		half2 tileableUv = worldSpaceVertex.xz;
 		
 		o.bumpCoords.xyzw = (tileableUv.xyxy + _Time.xxxx * _BumpDirection.xyzw) * _BumpTiling.xyzw;
 
@@ -162,7 +156,6 @@ CGINCLUDE
 		
 		o.normalInterpolator.xyz = nrml;
 		
-		o.viewInterpolator.w = saturate(offsets.y);
 		o.normalInterpolator.w = 1;//GetDistanceFadeout(o.screenPos.w, DISTANCE_SCALE);
 		
 		UNITY_TRANSFER_FOG(o,o.pos);
@@ -199,10 +192,9 @@ CGINCLUDE
 		half4 edgeBlendFactors = half4(1.0, 0.0, 0.0, 0.0);
 		
 		#ifdef WATER_EDGEBLEND_ON
-			float depth = SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(i.screenPos));
+			half depth = SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(i.screenPos));
 			depth = LinearEyeDepth(depth);
 			edgeBlendFactors = saturate(_InvFadeParemeter * (depth-i.screenPos.w));
-			edgeBlendFactors.y = 1.0-edgeBlendFactors.y;
 		#endif
 		
 		// shading for fresnel term
@@ -210,7 +202,7 @@ CGINCLUDE
 		half refl2Refr = Fresnel(viewVector, worldNormal, FRESNEL_BIAS, FRESNEL_POWER);
 		
 		// base, depth & reflection colors
-		half4 baseColor = ExtinctColor (_BaseColor, i.viewInterpolator.w * _InvFadeParemeter.w);
+		half4 baseColor = _BaseColor;
 		#ifdef WATER_REFLECTIVE
 			half4 reflectionColor = lerp (rtReflections,_ReflectionColor,_ReflectionColor.a);
 		#else
@@ -219,10 +211,6 @@ CGINCLUDE
 		
 		baseColor = lerp (lerp (rtRefractions, baseColor, baseColor.a), reflectionColor, refl2Refr);
 		baseColor = baseColor + spec * _SpecularColor;
-		
-		// handle foam
-		half4 foam = Foam(_ShoreTex, i.bumpCoords * 2.0);
-		baseColor.rgb += foam.rgb * _Foam.x * (edgeBlendFactors.y + saturate(i.viewInterpolator.w - _Foam.y));
 		
 		baseColor.a = edgeBlendFactors.x;
 		UNITY_APPLY_FOG(i.fogCoord, baseColor);
@@ -254,8 +242,8 @@ CGINCLUDE
 		
 		v.vertex.xyz += offsets;
 		
-		// one can also use worldSpaceVertex.xz here (speed!), albeit it'll end up a little skewed
-		half2 tileableUv = mul(unity_ObjectToWorld,v.vertex).xz;
+		half2 tileableUv = worldSpaceVertex.xz;
+		
 		o.bumpCoords.xyzw = (tileableUv.xyxy + _Time.xxxx * _BumpDirection.xyzw) * _BumpTiling.xyzw;
 
 		o.viewInterpolator.xyz = worldSpaceVertex - _WorldSpaceCameraPos;
@@ -265,6 +253,7 @@ CGINCLUDE
 		o.screenPos = ComputeNonStereoScreenPos(o.pos);
 		
 		o.normalInterpolator.xyz = nrml;
+		
 		o.normalInterpolator.w = 1;//GetDistanceFadeout(o.screenPos.w, DISTANCE_SCALE);
 		
 		UNITY_TRANSFER_FOG(o,o.pos);
@@ -273,8 +262,7 @@ CGINCLUDE
 
 	half4 frag300( v2f_noGrab i ) : SV_Target
 	{
-		half3 worldNormal = PerPixelNormal(_BumpMap, i.bumpCoords, normalize(VERTEX_WORLD_NORMAL), PER_PIXEL_DISPLACE);
-
+		half3 worldNormal = PerPixelNormal(_BumpMap, i.bumpCoords, VERTEX_WORLD_NORMAL, PER_PIXEL_DISPLACE);
 		half3 viewVector = normalize(i.viewInterpolator.xyz);
 
 		half4 distortOffset = half4(worldNormal.xz * REALTIME_DISTORTION * 10.0, 0, 0);
@@ -295,7 +283,6 @@ CGINCLUDE
 			half depth = SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(i.screenPos));
 			depth = LinearEyeDepth(depth);
 			edgeBlendFactors = saturate(_InvFadeParemeter * (depth-i.screenPos.z));
-			edgeBlendFactors.y = 1.0-edgeBlendFactors.y;
 		#endif
 		
 		worldNormal.xz *= _FresnelScale;
@@ -303,9 +290,9 @@ CGINCLUDE
 		
 		half4 baseColor = _BaseColor;
 		#ifdef WATER_REFLECTIVE
-			baseColor = lerp (baseColor, lerp (rtReflections,_ReflectionColor,_ReflectionColor.a), saturate(refl2Refr * 2.0));
+			baseColor = lerp (baseColor, lerp (rtReflections,_ReflectionColor,_ReflectionColor.a), saturate(refl2Refr * 1.0));
 		#else
-			baseColor = lerp (baseColor, _ReflectionColor, saturate(refl2Refr * 2.0));
+			baseColor = _ReflectionColor;//lerp (baseColor, _ReflectionColor, saturate(refl2Refr * 2.0));
 		#endif
 		
 		baseColor = baseColor + spec * _SpecularColor;
@@ -331,8 +318,6 @@ CGINCLUDE
 		o.viewInterpolator.xyz = worldSpaceVertex-_WorldSpaceCameraPos;
 		
 		o.pos = UnityObjectToClipPos( v.vertex);
-		
-		o.viewInterpolator.w = 1;//GetDistanceFadeout(ComputeNonStereoScreenPos(o.pos).w, DISTANCE_SCALE);
 		
 		UNITY_TRANSFER_FOG(o,o.pos);
 		return o;
@@ -414,11 +399,11 @@ Subshader
 			#pragma vertex vert300
 			#pragma fragment frag300
 			#pragma multi_compile_fog
-		
+
 			#pragma multi_compile WATER_VERTEX_DISPLACEMENT_ON WATER_VERTEX_DISPLACEMENT_OFF
 			#pragma multi_compile WATER_EDGEBLEND_ON WATER_EDGEBLEND_OFF
 			#pragma multi_compile WATER_REFLECTIVE WATER_SIMPLE
-		
+
 			ENDCG
 	}
 }
