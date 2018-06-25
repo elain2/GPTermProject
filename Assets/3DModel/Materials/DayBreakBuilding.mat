@@ -8,7 +8,7 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: DayBreakBuilding
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _ALPHATEST_ON _CEL_ON
+  m_ShaderKeywords: _ALPHATEST_ON _CEL_ON _SPECGLOSSMAP _SPEC_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -19,6 +19,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -40,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: dc9cb9d61d244054994cb86b73489a18, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -63,16 +67,32 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ReflectionTex:
+        m_Texture: {fileID: 2800000, guid: 7787f4ba49d6a3d4ca5ab030b7549ff8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 2800000, guid: 7787f4ba49d6a3d4ca5ab030b7549ff8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WindowTex:
+        m_Texture: {fileID: 2800000, guid: f716f91585737d842a73cf9385374547, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Ambient: 1
+    - PixelSnap: 0
+    - _Ambient: 0.766
     - _BumpScale: 1
     - _Cel: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _Diffuse: 1
     - _DstBlend: 0
-    - _EmiVal: 0
-    - _GlossMapScale: 1
+    - _EmiVal: 0.65
+    - _EnableExternalAlpha: 0
+    - _FresnelScale: 0.75
+    - _GerstnerIntensity: 1
+    - _GlossMapScale: 0.835
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
@@ -82,8 +102,9 @@ Material:
     - _OutlineValue: 0.1
     - _Parallax: 0.02
     - _Shiness: 1
+    - _Shininess: 3.94
     - _SmoothnessTextureChannel: 0
-    - _Spec: 0
+    - _Spec: 1
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
@@ -91,9 +112,27 @@ Material:
     - _threshold: 14.88
     m_Colors:
     - _AmbColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _AnimationDirection: {r: 1, g: 1, b: 1, a: 1}
+    - _AnimationTiling: {r: 2.2, g: 2.2, b: -1.1, a: -1.1}
+    - _BaseColor: {r: 0.54, g: 0.95, b: 0.99, a: 0.5}
+    - _BumpDirection: {r: 1, g: 1, b: -1, a: 1}
+    - _BumpTiling: {r: 1, g: 1, b: -2, a: 3}
+    - _Color: {r: 0.66176474, g: 0.66176474, b: 0.66176474, a: 1}
     - _DifColor: {r: 1, g: 1, b: 1, a: 1}
+    - _DistortParams: {r: 1, g: 1, b: 2, a: 1.15}
     - _EmiColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _GAmplitude: {r: 0.3, g: 0.35, b: 0.25, a: 0.25}
+    - _GDirectionAB: {r: 0.3, g: 0.85, b: 0.85, a: 0.25}
+    - _GDirectionCD: {r: 0.1, g: 0.9, b: 0.5, a: 0.5}
+    - _GFrequency: {r: 1.3, g: 1.35, b: 1.25, a: 1.25}
+    - _GSpeed: {r: 1.2, g: 1.375, b: 1.1, a: 1.5}
+    - _GSteepness: {r: 1, g: 1, b: 1, a: 1}
+    - _InvFadeParemeter: {r: 0.15, g: 0.15, b: 0.5, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ReflectionColor: {r: 0.54, g: 0.95, b: 0.99, a: 0.5}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecularColor: {r: 0.72, g: 0.72, b: 0.72, a: 1}
+    - _WorldLightDir: {r: 0, g: 0.1, b: -0.5, a: 0}

@@ -8,6 +8,7 @@ public class GeneralManager : MonoBehaviour {
     public string[] ItemType = new[] { "KeyItem", "RankItem", "MapDisableItem", "Default" };
     public int rank = 0;
     public Transform Respawn;
+    public bool b_IsTimeLine = false;
 
     private void Awake()
     {
