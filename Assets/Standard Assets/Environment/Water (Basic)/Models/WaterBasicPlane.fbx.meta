@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 681e41ee1260343b395ca58745c94870
+guid: ce8d79c79d11b8f9d00076e98d76c639
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
@@ -7,15 +7,19 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: kraut_plane
-    4300002: OceanPlane
+    4300000: pPlane1
+    4300002: nurbsToPoly1
+    4300004: pCylinder1
+    4300006: waterPlaneMesh
+    4300008: WaterBasicPlane
+    4300010: WaterSimplePlane
     11100000: //RootNode
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 1
-    materialSearch: 1
+    materialSearch: 2
   animations:
-    legacyGenerateAnimations: 3
+    legacyGenerateAnimations: 0
     bakeSimulation: 0
     optimizeGameObjects: 0
     motionNodeName: 
@@ -40,13 +44,13 @@ ModelImporter:
     optimizeMeshForGPU: 1
     weldVertices: 1
     secondaryUVAngleDistortion: 8
-    secondaryUVAreaDistortion: 15.000001
+    secondaryUVAreaDistortion: 15
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 0
   tangentSpace:
     normalSmoothAngle: 60
-    splitTangentsAcrossUV: 1
+    splitTangentsAcrossUV: 0
     normalImportMode: 0
     tangentImportMode: 1
   importAnimation: 1
