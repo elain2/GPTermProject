@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraScript : MonoBehaviour {
 
     public bool b_CameraFollow = true;
+    public bool b_CameraMove = true;
     public Transform player;
     public float f_Radius = 6;
     public int f_CurDegree;
@@ -29,22 +30,24 @@ public class CameraScript : MonoBehaviour {
         if (b_CameraFollow)
         {
 
-
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            if (b_CameraMove)
             {
-                if (f_CurDegree <= -360)
+                if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
-                    f_CurDegree = 0;
+                    if (f_CurDegree <= -360)
+                    {
+                        f_CurDegree = 0;
+                    }
+                    f_CurDegree -= 90;
                 }
-                f_CurDegree -= 90;
-            }
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                if (f_CurDegree >= 360)
+                if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
-                    f_CurDegree = 0;
+                    if (f_CurDegree >= 360)
+                    {
+                        f_CurDegree = 0;
+                    }
+                    f_CurDegree += 90;
                 }
-                f_CurDegree += 90;
             }
 
 

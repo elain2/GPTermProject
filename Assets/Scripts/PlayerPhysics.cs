@@ -10,7 +10,9 @@ public class PlayerPhysics : MonoBehaviour {
     public float f_Health = 3;
     public float f_JumpHeight = 10;
     public float f_DeathHeight = 25;
-    
+    //애초에 조작을 할 수 있는 상태인가?
+    public bool b_CanControl = true;
+
     int tempX = 0;
     int tempZ = 0;
     bool b_isBack = false;
@@ -72,7 +74,7 @@ public class PlayerPhysics : MonoBehaviour {
     void Start () {
         rigid = GetComponent<Rigidbody>();
         SpriteObj = transform.Find("Sprite");
-        anim = GetComponentInChildren<Animator>();
+        anim = SpriteObj.GetComponent<Animator>();
         col = GetComponent<CapsuleCollider>();
         playerDir = PlayerDir.Back;
         spriteLocalScale = SpriteObj.localScale.x;
@@ -81,20 +83,23 @@ public class PlayerPhysics : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (f_Health <= 0 || b_Dead)
+        if (b_CanControl)
         {
-            Debug.Log("Player Dead");
-            b_Dead = true;
-            anim.Play("Dead");
-            if (!b_DeadCounterActive)
+            if (f_Health <= 0 || b_Dead)
             {
-                StartCoroutine(DeadCounter());
+                Debug.Log("Player Dead");
+                b_Dead = true;
+                anim.Play("Dead");
+                if (!b_DeadCounterActive)
+                {
+                    StartCoroutine(DeadCounter());
+                }
             }
-        }
-        else
-        {
-            MoveRayControl();
-            AnimationControl();
+            else
+            {
+                MoveRayControl();
+                AnimationControl();
+            }
         }
 
     }
