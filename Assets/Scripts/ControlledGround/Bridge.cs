@@ -9,6 +9,7 @@ public class Bridge : ControlledMap {
     //종종 X축이 90 도로 뒤집혀 있는 놈이 있음(3D 모델) 이것을 위해 존재함. 그냥 일반 오브젝트는 true
     public bool b_UseY = true;
     public float f_Speed = 4;
+
     float f_Distance;
     Vector3 CenterPos;
     Vector3 ScaleGoal;
@@ -48,11 +49,7 @@ public class Bridge : ControlledMap {
 	// Update is called once per frame
 	void Update () {
 
-        if (b_Start)
-        {
 
-            MoveStart();
-        }
 	}
     public override void MoveStart()
     {
@@ -63,8 +60,16 @@ public class Bridge : ControlledMap {
         if(transform.position == CenterPos)
         {
             Debug.Log("Bridge End");
-            this.enabled = false;
+            b_Start = false;
+ 
         }
+    }
+
+    public void reverseStart()
+    {
+        GetComponent<MeshRenderer>().enabled = true;
+        GetComponent<BoxCollider>().enabled = true;
+        transform.position = Vector3.Lerp(transform.position, StartPoint.position, f_Speed * Time.deltaTime);
     }
 
     

@@ -5,6 +5,7 @@ using UnityEngine;
 abstract public class ControlledMap : MonoBehaviour {
 
     public bool b_Start = false;
+
     // Use this for initialization
     void Start () {
         
