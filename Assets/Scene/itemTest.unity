@@ -338,7 +338,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 940537402
+  randomSeed: -847275919
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -490,7 +490,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0.3
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -3648,7 +3648,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4007089997121796, guid: 4d5d67438d3c11e47a9b7a758e3934a1, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -8.296478
+      value: -10.27
       objectReference: {fileID: 0}
     - target: {fileID: 4007089997121796, guid: 4d5d67438d3c11e47a9b7a758e3934a1, type: 2}
       propertyPath: m_LocalPosition.y
@@ -3826,7 +3826,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 600888150
+  randomSeed: 577059456
   InitialModule:
     serializedVersion: 3
     enabled: 1
