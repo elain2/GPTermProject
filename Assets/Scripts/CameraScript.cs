@@ -13,6 +13,7 @@ public class CameraScript : MonoBehaviour {
     private float f_tempRadius;
     Quaternion tempquat = new Quaternion();
 
+
     // Use this for initialization
     void Start () {
         player = GameObject.FindGameObjectWithTag("Player").transform;
