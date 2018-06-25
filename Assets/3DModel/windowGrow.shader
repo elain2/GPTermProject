@@ -17,7 +17,6 @@
 		_SpecColor("Specular color", color) = (1., 1., 1., 1.)
 
 		[Header(Emission)]
-		[Toggle] _Spec("Enabled?", Float) = 0.
 		_EmissionTex("Emission texture", 2D) = "gray" {}
 		_EmiVal("Intensity", float) = 0.
 		[HDR]_EmiColor("Color", color) = (1., 1., 1., 1.)
