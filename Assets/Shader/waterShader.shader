@@ -23,6 +23,10 @@
 		_EmiVal("Intensity", float) = 0.
 		[HDR]_EmiColor("Color", color) = (1., 1., 1., 1.)
 
+		[Header(Spakle)]
+		_SparkleSpeed("Speed", float) = 0.0
+		_SparkleStrength("Strength", Range(0.0, 1.0)) = 0.0
+
 		[Header(Waves)]
 		_WaveSpeed("Speed", float) = 0.0
 		_WaveStrength("Strength", Range(0.0, 1.0)) = 0.0
@@ -71,14 +75,18 @@
 
 
 				sampler2D _BumpMap;
+
+				float _SparkleStrength;
+				float _SparkleSpeed;
+
 				float _WaveStrength;
 				float _WaveSpeed;
 
 
 				// Deformation uv map
 				float3 movement(float3 pos, float2 uv) {
-					float sinOff = (pos.x + pos.y + pos.z) * _WaveStrength;
-					float t = _Time.y * _WaveSpeed;
+					float sinOff = (pos.x + pos.y + pos.z) * _SparkleStrength;
+					float t = _Time.y * _SparkleSpeed;
 					float fx = uv.x;
 					float fy = uv.y;
 					pos.x += sin(t + sinOff) * fx ;
