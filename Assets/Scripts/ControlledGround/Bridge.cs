@@ -50,6 +50,7 @@ public class Bridge : ControlledMap {
 
         if (b_Start)
         {
+
             MoveStart();
         }
 	}

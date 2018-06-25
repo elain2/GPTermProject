@@ -92,28 +92,28 @@ public class Player : MonoBehaviour {
 
             if (camScript.f_CurDegree == 0 || camScript.f_CurDegree == 360 || camScript.f_CurDegree == -360)
             {
-                RayPoint1 = StartPoint + new Vector3(-col.bounds.size.x / 2 + 0.05f, col.bounds.size.y / 2);
+                RayPoint1 = StartPoint + new Vector3(-col.bounds.size.x / 2 + 0.05f, col.bounds.size.y / 2 - 0.1f);
                 RayPoint2 = StartPoint + new Vector3(-col.bounds.size.x / 2 + 0.05f, 0);
-                RayPoint3 = StartPoint + new Vector3(-col.bounds.size.x / 2 + 0.05f, -col.bounds.size.y / 2);
+                RayPoint3 = StartPoint + new Vector3(-col.bounds.size.x / 2 + 0.05f, -col.bounds.size.y / 2 + 0.1f);
 
             }else if (Mathf.Abs(camScript.f_CurDegree) == 180)
             {
-                RayPoint1 = StartPoint + new Vector3(col.bounds.size.x / 2 - 0.05f, col.bounds.size.y / 2);
+                RayPoint1 = StartPoint + new Vector3(col.bounds.size.x / 2 - 0.05f, col.bounds.size.y / 2 - 0.1f);
                 RayPoint2 = StartPoint + new Vector3(col.bounds.size.x / 2 - 0.05f, 0);
-                RayPoint3 = StartPoint + new Vector3(col.bounds.size.x / 2 - 0.05f, -col.bounds.size.y / 2);
+                RayPoint3 = StartPoint + new Vector3(col.bounds.size.x / 2 - 0.05f, -col.bounds.size.y / 2 + 0.1f);
             }
             else if(camScript.f_CurDegree == 90 || camScript.f_CurDegree == -270)
             {
 
-                RayPoint1 = StartPoint + new Vector3(0, col.bounds.size.y / 2, -col.bounds.size.z / 2 + 0.05f);
-                RayPoint2 = StartPoint + new Vector3(0, 0, -col.bounds.size.z / 2 + 0.05f);
-                RayPoint3 = StartPoint + new Vector3(0, -col.bounds.size.y / 2, -col.bounds.size.z / 2 + 0.05f);
+                RayPoint1 = StartPoint + new Vector3(0, col.bounds.size.y / 2, -col.bounds.size.z / 2 + 0.1f);
+                RayPoint2 = StartPoint + new Vector3(0, 0, -col.bounds.size.z / 2 + 0.1f);
+                RayPoint3 = StartPoint + new Vector3(0, -col.bounds.size.y / 2, -col.bounds.size.z / 2 + 0.1f);
             }
             else
             {
-                RayPoint1 = StartPoint + new Vector3(0, col.bounds.size.y / 2, col.bounds.size.z / 2 + 0.05f);
-                RayPoint2 = StartPoint + new Vector3(0, 0, col.bounds.size.z / 2 + 0.05f);
-                RayPoint3 = StartPoint + new Vector3(0, -col.bounds.size.y / 2, col.bounds.size.z / 2 + 0.05f);
+                RayPoint1 = StartPoint + new Vector3(0, col.bounds.size.y / 2, col.bounds.size.z / 2 + 0.1f);
+                RayPoint2 = StartPoint + new Vector3(0, 0, col.bounds.size.z / 2 + 0.1f);
+                RayPoint3 = StartPoint + new Vector3(0, -col.bounds.size.y / 2, col.bounds.size.z / 2 + 0.1f);
 
             }
             Ray1 = new Ray(RayPoint1, dir);
@@ -129,12 +129,13 @@ public class Player : MonoBehaviour {
 
                     tempX -= 1;
                 }
-              
+                Debug.Log("Its Ground");
 
             }
             else
             {
                 tempX -= 1;
+
             }
 
         }

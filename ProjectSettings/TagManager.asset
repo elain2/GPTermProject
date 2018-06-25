@@ -16,11 +16,11 @@ TagManager:
   - Ground
   - PlayerBody
   - Grab
-  - Platform
+  - EnemyBody
   - Item
-  - 
-  - 
-  - 
+  - Actor
+  - Platform
+  - Detect
   - 
   - 
   - 
