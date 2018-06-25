@@ -158,11 +158,16 @@ public class PlayerPhysics : MonoBehaviour {
             b_Air = false;
         }else
         {
+ 
             b_Air = true;
+
         }
 
-            
-        
+
+        if (b_Climb)
+        {
+            b_Air = false;
+        }
 
         //캐릭터이동
         Vector3 CamPosVector = Camera.main.transform.position;
@@ -177,27 +182,28 @@ public class PlayerPhysics : MonoBehaviour {
         Vector3 temp1 = StartPoint + new Vector3(0, col.height / 2, 0);
         Vector3 temp2 = StartPoint - new Vector3(0, col.height / 2, 0);
 
-        
-
 
 
         //사다리에서 탄 상태와 타지 않은 상태를 분류한다.
         if (!b_Climb)
         {
+            tempY = 0;
             rigid.useGravity = true;
 
-            if((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && !ZPress)
+            if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && !ZPress)
             {
                 XPress = true;
-            }else
+            }
+            else
             {
                 XPress = false;
             }
 
-            if((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S)) && !XPress)
+            if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S)) && !XPress)
             {
                 ZPress = true;
-            }else
+            }
+            else
             {
                 ZPress = false;
             }
@@ -238,7 +244,7 @@ public class PlayerPhysics : MonoBehaviour {
                 MoveRayX[1] = new Ray(temp2, tempX * getXAngle);
                 MoveRayZ[0] = new Ray(temp1, tempZ * getZAngle);
                 MoveRayZ[1] = new Ray(temp2, tempZ * getZAngle);
-                if(Physics.Raycast(MoveRayX[0], out MoveHitX[0], col.radius + 0.1f, GroundMask) || Physics.Raycast(MoveRayX[1], out MoveHitX[1], col.radius + 0.1f, GroundMask))
+                if (Physics.Raycast(MoveRayX[0], out MoveHitX[0], col.radius + 0.1f, GroundMask) || Physics.Raycast(MoveRayX[1], out MoveHitX[1], col.radius + 0.1f, GroundMask))
                 {
                     tempX = 0;
                 }
@@ -247,21 +253,18 @@ public class PlayerPhysics : MonoBehaviour {
                     tempZ = 0;
                 }
 
-                if(rigid.velocity.y <= -f_DeathHeight)
+                if (rigid.velocity.y <= -f_DeathHeight)
                 {
                     b_tooHigh = true;
                 }
 
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) && !b_Air)
-            {
-                rigid.velocity += new Vector3(0, f_JumpHeight);
-            }
+
 
             float tempSpeed = speed;
 
-            rigid.velocity = Vector3.Normalize(new Vector3((getXAngle.x * tempX + getZAngle.x * tempZ), 0, (getXAngle.z * tempX + getZAngle.z * tempZ))) * tempSpeed + new Vector3(0, rigid.velocity.y,0);
+            rigid.velocity = Vector3.Normalize(new Vector3((getXAngle.x * tempX + getZAngle.x * tempZ), 0, (getXAngle.z * tempX + getZAngle.z * tempZ))) * tempSpeed + new Vector3(0, rigid.velocity.y, 0);
         }
         else
         {
@@ -277,6 +280,17 @@ public class PlayerPhysics : MonoBehaviour {
             }
 
             rigid.velocity = new Vector3(0, tempY * speed, 0);
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && !b_Air)
+        {
+            rigid.velocity += new Vector3(0, f_JumpHeight - tempY * speed);
+            if (b_Climb)
+            {
+                b_Climb = false;
+                transform.parent = null;
+            }
         }
 
 
@@ -380,6 +394,7 @@ public class PlayerPhysics : MonoBehaviour {
                     Debug.Log(other.transform.forward);
                     tempVec += other.transform.forward * col.radius;
                     transform.position = tempVec;
+                    transform.parent = other.transform;
                 }
                 
             }else
@@ -387,6 +402,7 @@ public class PlayerPhysics : MonoBehaviour {
                 if (Input.GetKeyDown(KeyCode.F))
                 {
                     b_Climb = false;
+                    transform.parent = null;
                 }
             }
         }
@@ -409,7 +425,12 @@ public class PlayerPhysics : MonoBehaviour {
         if(other.gameObject.layer == LayerMask.NameToLayer("Grab"))
         {
             Debug.Log("Can't Clmib");
-            b_Climb = false;
+            if (b_Climb)
+            {
+                b_Climb = false;
+                transform.parent = null;
+            }
+
         }
     }
 

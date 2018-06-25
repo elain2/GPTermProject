@@ -63,7 +63,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -112,10 +112,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   b_CameraFollow: 1
   player: {fileID: 0}
-  f_Radius: 8
+  f_Radius: 100
   f_CurDegree: 0
-  CameraHeight: 3
-  lerpSpeed: 6
+  CameraHeight: 20
+  lerpSpeed: 3
 --- !u!124 &124641348329419770
 Behaviour:
   m_ObjectHideFlags: 1
