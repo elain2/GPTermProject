@@ -3663,8 +3663,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BGM:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 1d3c37bd0ce5fca4daa705976fa4d525, type: 3}
+  - {fileID: 8300000, guid: 8a08579af9ee333499a8e3714ce6cf99, type: 3}
 --- !u!82 &239397378
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4424,7 +4424,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &955851991
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4455,7 +4455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.88235295, g: 0.88235295, b: 0.88235295, a: 1}
+  m_Color: {r: 0.88235295, g: 0.88235295, b: 0.88235295, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4495,12 +4495,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TextSet:
   - '....?'
-  - "\uC544.. \uBBF8\uC548\uD574\uC694. \uC5EC\uAE30\uB294 \uB2E4\uB978 \uC0AC\uB78C\uACFC
-    \uB9CC\uB098\uB294 \uC77C\uC774 \uADF8\uB9AC \uB9CE\uC9C0 \uC54A\uC544\uC11C\uC694."
-  - '...'
+  - "\uB2E4\uB978 \uC0AC\uB78C\uACFC \uB9CC\uB0A0 \uC77C\uC774 \uC801\uC740 \uACF3\uC778\uB370...
+    \uC758\uC678\uB124\uC694."
+  - '.....'
   - "\uC5EC\uAE30\uAC00 \uC5B4\uB514\uC778\uC9C0 \uAD81\uAE08\uD558\uC2E0\uAC00\uC694?"
-  - "\uB192\uC740 \uACF3\uC73C\uB85C... \uAC00\uC7A5 \uB192\uC740 \uACF3\uC73C\uB85C
-    \uAC00\uC138\uC694."
+  - "\uAC74\uBB3C\uB4E4\uC744 \uB530\uB77C... \uB192\uC740 \uACF3\uC73C\uB85C... \uAC00\uC7A5
+    \uB192\uC740 \uACF3\uC73C\uB85C \uAC00\uC138\uC694."
   - "\uADF8 \uACF3\uC5D0\uC11C \uB2F5\uC744 \uCC3E\uC744 \uC218 \uC788\uAE30\uB97C..."
   TextSetNum: 0
 --- !u!95 &955851995
