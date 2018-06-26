@@ -171,6 +171,7 @@ public class PlayerPhysics : MonoBehaviour {
 
         if (b_Climb)
         {
+            
             b_Air = false;
         }
 
@@ -273,6 +274,7 @@ public class PlayerPhysics : MonoBehaviour {
         }
         else
         {
+            rigid.velocity = new Vector3(0, 0, 0);
             rigid.useGravity = false;
             if (Input.GetKey(KeyCode.W))
             {
