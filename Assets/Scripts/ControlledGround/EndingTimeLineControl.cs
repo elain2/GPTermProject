@@ -29,6 +29,7 @@ public class EndingTimeLineControl : MonoBehaviour {
         {
 
             other.GetComponent<PlayerPhysics>().b_CanControl = false;
+            other.GetComponent<Rigidbody>().velocity = Vector3.zero;
             director.Play();
             b_play = true;
         }
