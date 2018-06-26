@@ -9,7 +9,7 @@ public class EndingTimeLineControl : MonoBehaviour {
     public bool b_play = false;
 	// Use this for initialization
 	void Start () {
-		
+        director = GetComponent<PlayableDirector>();
 	}
 	
 	// Update is called once per frame
